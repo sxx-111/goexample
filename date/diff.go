@@ -150,6 +150,62 @@ func main() {
 
 	// 示例36: StampNano格式
 	fmt.Printf("示例36 - StampNano格式: %s\n", now.Format(time.StampNano)) // Mar 15 14:30:45.123456789
+
+	// 示例37: 年份格式化 - 2位和4位
+	fmt.Printf("示例37 - 2位年份: %s\n", now.Format("06"))   // 19
+	fmt.Printf("示例37 - 4位年份: %s\n", now.Format("2006")) // 2019
+
+	// 示例38: 月份格式化 - 数字格式
+	fmt.Printf("示例38 - 月份(带前导零): %s\n", now.Format("01"))   // 03
+	fmt.Printf("示例38 - 月份(不带前导零): %s\n", now.Format("1"))  // 3
+	fmt.Printf("示例38 - 月份(2位数字): %s\n", now.Format("_1"))    //  3 (带空格填充)
+
+	// 示例39: 日期格式化 - 数字格式
+	fmt.Printf("示例39 - 日期(带前导零): %s\n", now.Format("02"))   // 15
+	fmt.Printf("示例39 - 日期(不带前导零): %s\n", now.Format("2"))  // 15
+	fmt.Printf("示例39 - 日期(2位数字): %s\n", now.Format("_2"))    // 15 (带空格填充)
+
+	// 示例40: 小时格式化 - 24小时制和12小时制
+	fmt.Printf("示例40 - 24小时制(带前导零): %s\n", now.Format("15"))   // 14
+	fmt.Printf("示例40 - 24小时制(不带前导零): %s\n", now.Format("3"))  // 2 (12小时制，不带前导零)
+	fmt.Printf("示例40 - 12小时制(带前导零): %s\n", now.Format("03"))   // 02
+	fmt.Printf("示例40 - 12小时制(不带前导零): %s\n", now.Format("3"))  // 2
+
+	// 示例41: 分钟和秒格式化
+	fmt.Printf("示例41 - 分钟(带前导零): %s\n", now.Format("04"))   // 30
+	fmt.Printf("示例41 - 秒(带前导零): %s\n", now.Format("05"))     // 45
+	fmt.Printf("示例41 - 分钟(不带前导零): %s\n", now.Format("4"))  // 30
+	fmt.Printf("示例41 - 秒(不带前导零): %s\n", now.Format("5"))    // 45
+
+	// 示例42: 时区偏移量格式化
+	fmt.Printf("示例42 - 时区偏移(Z07:00): %s\n", now.Format("2006-01-02 15:04:05 Z07:00"))     // 2019-03-15 14:30:45 Z
+	fmt.Printf("示例42 - 时区偏移(-07:00): %s\n", now.Format("2006-01-02 15:04:05 -07:00"))     // 2019-03-15 14:30:45 +00:00
+	fmt.Printf("示例42 - 时区偏移(-0700): %s\n", beijingTime.Format("2006-01-02 15:04:05 -0700")) // 2019-03-15 22:30:45 +0800
+
+	// 示例43: 一年中的第几天和第几周
+	jan1 := time.Date(2019, 1, 1, 0, 0, 0, 0, time.UTC)
+	fmt.Printf("示例43 - 一年中的第几天: %d\n", now.YearDay()) // 74
+	_, week := now.ISOWeek()
+	fmt.Printf("示例43 - ISO周数: %d\n", week) // 11
+
+	// 示例44: 组合格式 - 紧凑格式
+	fmt.Printf("示例44 - 紧凑格式(YYYYMMDD): %s\n", now.Format("20060102"))           // 20190315
+	fmt.Printf("示例44 - 紧凑格式(YYYYMMDDHHMMSS): %s\n", now.Format("20060102150405")) // 20190315143045
+
+	// 示例45: 组合格式 - 日志格式
+	fmt.Printf("示例45 - 日志格式: %s\n", now.Format("2006/01/02 15:04:05")) // 2019/03/15 14:30:45
+	fmt.Printf("示例45 - 日志格式(带毫秒): %s\n", now.Format("2006/01/02 15:04:05.000")) // 2019/03/15 14:30:45.123
+
+	// 示例46: 组合格式 - 文件名格式
+	fmt.Printf("示例46 - 文件名格式: %s\n", now.Format("2006-01-02_15-04-05")) // 2019-03-15_14-30-45
+	fmt.Printf("示例46 - 文件名格式(带毫秒): %s\n", now.Format("2006-01-02_15-04-05.000")) // 2019-03-15_14-30-45.123
+
+	// 示例47: 相对时间格式化 - 使用time.Since
+	pastTime := time.Date(2019, 3, 15, 12, 0, 0, 0, time.UTC)
+	duration := now.Sub(pastTime)
+	fmt.Printf("示例47 - 时间差: %s\n", duration)                    // 2h30m45.123456789s
+	fmt.Printf("示例47 - 时间差(小时): %.2f 小时\n", duration.Hours()) // 2.51 小时
+	fmt.Printf("示例47 - 时间差(分钟): %.2f 分钟\n", duration.Minutes()) // 150.75 分钟
 }
 
 func Date(year, month, day int) time.Time {
