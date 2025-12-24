@@ -65,6 +65,91 @@ func main() {
 	t20 := Date(2021, 1, 1)
 	days10 := t20.Sub(t19).Hours() / 24
 	fmt.Printf("示例10 - 2020年1月1日到2021年1月1日: %.0f 天\n", days10) // 366 (2020是闰年)
+
+	fmt.Println("\n=== 时间格式化示例 ===")
+
+	// 示例11: RFC3339格式（ISO 8601）
+	now := time.Date(2019, 3, 15, 14, 30, 45, 123456789, time.UTC)
+	fmt.Printf("示例11 - RFC3339格式: %s\n", now.Format(time.RFC3339)) // 2019-03-15T14:30:45Z
+
+	// 示例12: RFC3339Nano格式
+	fmt.Printf("示例12 - RFC3339Nano格式: %s\n", now.Format(time.RFC3339Nano)) // 2019-03-15T14:30:45.123456789Z
+
+	// 示例13: RFC822格式
+	fmt.Printf("示例13 - RFC822格式: %s\n", now.Format(time.RFC822)) // 15 Mar 19 14:30 UTC
+
+	// 示例14: RFC822Z格式（带时区）
+	fmt.Printf("示例14 - RFC822Z格式: %s\n", now.Format(time.RFC822Z)) // 15 Mar 19 14:30 +0000
+
+	// 示例15: RFC1123格式
+	fmt.Printf("示例15 - RFC1123格式: %s\n", now.Format(time.RFC1123)) // Fri, 15 Mar 2019 14:30:45 UTC
+
+	// 示例16: RFC1123Z格式（带时区）
+	fmt.Printf("示例16 - RFC1123Z格式: %s\n", now.Format(time.RFC1123Z)) // Fri, 15 Mar 2019 14:30:45 +0000
+
+	// 示例17: 自定义格式 - 年月日
+	fmt.Printf("示例17 - 自定义格式(YYYY-MM-DD): %s\n", now.Format("2006-01-02")) // 2019-03-15
+
+	// 示例18: 自定义格式 - 年月日时分秒
+	fmt.Printf("示例18 - 自定义格式(YYYY-MM-DD HH:MM:SS): %s\n", now.Format("2006-01-02 15:04:05")) // 2019-03-15 14:30:45
+
+	// 示例19: 自定义格式 - 中文日期
+	fmt.Printf("示例19 - 自定义格式(中文): %s\n", now.Format("2006年01月02日 15:04:05")) // 2019年03月15日 14:30:45
+
+	// 示例20: 自定义格式 - 12小时制
+	fmt.Printf("示例20 - 自定义格式(12小时制): %s\n", now.Format("2006-01-02 03:04:05 PM")) // 2019-03-15 02:30:45 PM
+
+	// 示例21: 自定义格式 - 仅时间
+	fmt.Printf("示例21 - 自定义格式(仅时间): %s\n", now.Format("15:04:05")) // 14:30:45
+
+	// 示例22: 自定义格式 - 带毫秒
+	fmt.Printf("示例22 - 自定义格式(带毫秒): %s\n", now.Format("2006-01-02 15:04:05.000")) // 2019-03-15 14:30:45.123
+
+	// 示例23: 自定义格式 - 带微秒
+	fmt.Printf("示例23 - 自定义格式(带微秒): %s\n", now.Format("2006-01-02 15:04:05.000000")) // 2019-03-15 14:30:45.123456
+
+	// 示例24: 自定义格式 - 带纳秒
+	fmt.Printf("示例24 - 自定义格式(带纳秒): %s\n", now.Format("2006-01-02 15:04:05.000000000")) // 2019-03-15 14:30:45.123456789
+
+	// 示例25: Unix时间戳格式化
+	timestamp := time.Date(2019, 3, 15, 14, 30, 45, 0, time.UTC)
+	fmt.Printf("示例25 - Unix时间戳: %d\n", timestamp.Unix()) // 1552662645
+
+	// 示例26: UnixNano时间戳格式化
+	fmt.Printf("示例26 - UnixNano时间戳: %d\n", timestamp.UnixNano()) // 1552662645000000000
+
+	// 示例27: 不同时区格式化
+	beijingTime := timestamp.In(time.FixedZone("CST", 8*3600))
+	fmt.Printf("示例27 - 北京时间: %s\n", beijingTime.Format("2006-01-02 15:04:05 MST")) // 2019-03-15 22:30:45 CST
+
+	// 示例28: 时区信息
+	fmt.Printf("示例28 - 时区信息: %s\n", beijingTime.Format("2006-01-02 15:04:05 -0700")) // 2019-03-15 22:30:45 +0800
+
+	// 示例29: 星期格式化
+	fmt.Printf("示例29 - 星期: %s\n", now.Format("Monday")) // Friday
+	fmt.Printf("示例29 - 星期(缩写): %s\n", now.Format("Mon")) // Fri
+
+	// 示例30: 月份格式化
+	fmt.Printf("示例30 - 月份: %s\n", now.Format("January")) // March
+	fmt.Printf("示例30 - 月份(缩写): %s\n", now.Format("Jan")) // Mar
+
+	// 示例31: 组合格式 - 完整日期时间
+	fmt.Printf("示例31 - 完整格式: %s\n", now.Format("2006-01-02 15:04:05 Monday")) // 2019-03-15 14:30:45 Friday
+
+	// 示例32: Kitchen格式
+	fmt.Printf("示例32 - Kitchen格式: %s\n", now.Format(time.Kitchen)) // 2:30PM
+
+	// 示例33: Stamp格式
+	fmt.Printf("示例33 - Stamp格式: %s\n", now.Format(time.Stamp)) // Mar 15 14:30:45
+
+	// 示例34: StampMilli格式
+	fmt.Printf("示例34 - StampMilli格式: %s\n", now.Format(time.StampMilli)) // Mar 15 14:30:45.123
+
+	// 示例35: StampMicro格式
+	fmt.Printf("示例35 - StampMicro格式: %s\n", now.Format(time.StampMicro)) // Mar 15 14:30:45.123456
+
+	// 示例36: StampNano格式
+	fmt.Printf("示例36 - StampNano格式: %s\n", now.Format(time.StampNano)) // Mar 15 14:30:45.123456789
 }
 
 func Date(year, month, day int) time.Time {
