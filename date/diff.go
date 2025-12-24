@@ -206,6 +206,85 @@ func main() {
 	fmt.Printf("示例47 - 时间差: %s\n", duration)                    // 2h30m45.123456789s
 	fmt.Printf("示例47 - 时间差(小时): %.2f 小时\n", duration.Hours()) // 2.51 小时
 	fmt.Printf("示例47 - 时间差(分钟): %.2f 分钟\n", duration.Minutes()) // 150.75 分钟
+
+	// 示例48: 时间解析和格式化 - Parse
+	timeStr := "2019-03-15 14:30:45"
+	parsedTime, _ := time.Parse("2006-01-02 15:04:05", timeStr)
+	fmt.Printf("示例48 - 解析时间字符串: %s -> %s\n", timeStr, parsedTime.Format(time.RFC3339)) // 2019-03-15T14:30:45Z
+
+	// 示例49: 时间解析 - RFC3339格式
+	rfc3339Str := "2019-03-15T14:30:45Z"
+	parsedRFC3339, _ := time.Parse(time.RFC3339, rfc3339Str)
+	fmt.Printf("示例49 - 解析RFC3339: %s -> %s\n", rfc3339Str, parsedRFC3339.Format("2006-01-02 15:04:05")) // 2019-03-15 14:30:45
+
+	// 示例50: 时间解析 - 带时区
+	rfc3339WithTZ := "2019-03-15T14:30:45+08:00"
+	parsedWithTZ, _ := time.Parse(time.RFC3339, rfc3339WithTZ)
+	fmt.Printf("示例50 - 解析带时区: %s -> UTC: %s\n", rfc3339WithTZ, parsedWithTZ.UTC().Format("2006-01-02 15:04:05")) // 2019-03-15 06:30:45
+
+	// 示例51: 时间加减操作
+	nextDay := now.AddDate(0, 0, 1)
+	fmt.Printf("示例51 - 加1天: %s -> %s\n", now.Format("2006-01-02"), nextDay.Format("2006-01-02")) // 2019-03-15 -> 2019-03-16
+	nextMonth := now.AddDate(0, 1, 0)
+	fmt.Printf("示例51 - 加1个月: %s -> %s\n", now.Format("2006-01-02"), nextMonth.Format("2006-01-02")) // 2019-03-15 -> 2019-04-15
+	nextYear := now.AddDate(1, 0, 0)
+	fmt.Printf("示例51 - 加1年: %s -> %s\n", now.Format("2006-01-02"), nextYear.Format("2006-01-02")) // 2019-03-15 -> 2020-03-15
+
+	// 示例52: 时间加减 - Duration
+	oneHourLater := now.Add(time.Hour)
+	fmt.Printf("示例52 - 加1小时: %s -> %s\n", now.Format("15:04:05"), oneHourLater.Format("15:04:05")) // 14:30:45 -> 15:30:45
+	oneMinuteLater := now.Add(time.Minute)
+	fmt.Printf("示例52 - 加1分钟: %s -> %s\n", now.Format("15:04:05"), oneMinuteLater.Format("15:04:05")) // 14:30:45 -> 14:31:45
+	oneSecondLater := now.Add(time.Second)
+	fmt.Printf("示例52 - 加1秒: %s -> %s\n", now.Format("15:04:05"), oneSecondLater.Format("15:04:05")) // 14:30:45 -> 14:30:46
+
+	// 示例53: 时间比较
+	earlierTime := time.Date(2019, 3, 15, 10, 0, 0, 0, time.UTC)
+	laterTime := time.Date(2019, 3, 15, 18, 0, 0, 0, time.UTC)
+	fmt.Printf("示例53 - 时间比较: %s < %s = %t\n", earlierTime.Format("15:04:05"), laterTime.Format("15:04:05"), earlierTime.Before(laterTime))   // true
+	fmt.Printf("示例53 - 时间比较: %s > %s = %t\n", laterTime.Format("15:04:05"), earlierTime.Format("15:04:05"), laterTime.After(earlierTime))   // true
+	fmt.Printf("示例53 - 时间比较: %s == %s = %t\n", now.Format("15:04:05"), now.Format("15:04:05"), now.Equal(now)) // true
+
+	// 示例54: 获取时间的各个组成部分
+	fmt.Printf("示例54 - 年份: %d\n", now.Year())           // 2019
+	fmt.Printf("示例54 - 月份: %d\n", now.Month())           // 3
+	fmt.Printf("示例54 - 日期: %d\n", now.Day())             // 15
+	fmt.Printf("示例54 - 小时: %d\n", now.Hour())            // 14
+	fmt.Printf("示例54 - 分钟: %d\n", now.Minute())          // 30
+	fmt.Printf("示例54 - 秒: %d\n", now.Second())            // 45
+	fmt.Printf("示例54 - 纳秒: %d\n", now.Nanosecond())      // 123456789
+	fmt.Printf("示例54 - 星期: %s\n", now.Weekday().String()) // Friday
+
+	// 示例55: 时区转换
+	nyTime, _ := time.LoadLocation("America/New_York")
+	nyTimeFormatted := now.In(nyTime)
+	fmt.Printf("示例55 - UTC时间: %s\n", now.Format("2006-01-02 15:04:05 MST"))           // 2019-03-15 14:30:45 UTC
+	fmt.Printf("示例55 - 纽约时间: %s\n", nyTimeFormatted.Format("2006-01-02 15:04:05 MST")) // 2019-03-15 10:30:45 EST
+
+	// 示例56: 时间截断 - Truncate
+	truncatedHour := now.Truncate(time.Hour)
+	fmt.Printf("示例56 - 截断到小时: %s -> %s\n", now.Format("15:04:05"), truncatedHour.Format("15:04:05")) // 14:30:45 -> 14:00:00
+	truncatedDay := now.Truncate(24 * time.Hour)
+	fmt.Printf("示例56 - 截断到天: %s -> %s\n", now.Format("2006-01-02 15:04:05"), truncatedDay.Format("2006-01-02 15:04:05")) // 2019-03-15 14:30:45 -> 2019-03-15 00:00:00
+
+	// 示例57: 时间取整 - Round
+	roundedHour := now.Round(time.Hour)
+	fmt.Printf("示例57 - 四舍五入到小时: %s -> %s\n", now.Format("15:04:05"), roundedHour.Format("15:04:05")) // 14:30:45 -> 15:00:00
+	roundedMinute := now.Round(time.Minute)
+	fmt.Printf("示例57 - 四舍五入到分钟: %s -> %s\n", now.Format("15:04:05"), roundedMinute.Format("15:04:05")) // 14:30:45 -> 14:31:00
+
+	// 示例58: 时间格式化 - 季度
+	quarter := (int(now.Month())-1)/3 + 1
+	fmt.Printf("示例58 - 季度: %d\n", quarter) // 1 (3月属于第1季度)
+
+	// 示例59: 时间格式化 - 一年中的第几周（ISO周）
+	year, week := now.ISOWeek()
+	fmt.Printf("示例59 - ISO年周: %d年第%d周\n", year, week) // 2019年第11周
+
+	// 示例60: 时间格式化 - 自定义分隔符和格式组合
+	fmt.Printf("示例60 - 点分隔: %s\n", now.Format("2006.01.02"))              // 2019.03.15
+	fmt.Printf("示例60 - 无分隔: %s\n", now.Format("20060102150405"))          // 20190315143045
+	fmt.Printf("示例60 - 中文完整: %s\n", now.Format("2006年01月02日 15时04分05秒")) // 2019年03月15日 14时30分45秒
 }
 
 func Date(year, month, day int) time.Time {
